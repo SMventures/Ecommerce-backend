@@ -68,12 +68,14 @@ const getUserProfileByToken=async(token)=>{
         console.log("userr id ",userId)
 
 
-        const user= (await findUserById(userId)).populate("addresses");
+        const user= (await findUserById(userId))
+        // .populate("address");
         user.password=null;
         
         if(!user){
             throw new Error("user not exist with id : ",userId)
         }
+        console.log("user",user)
         return user;
     } catch (error) {
         console.log("error ----- ",error.message)
