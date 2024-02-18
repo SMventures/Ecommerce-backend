@@ -8,4 +8,4 @@ router.get("/user",authenticate,orderController.orderHistory);
 router.get("/:id",authenticate,orderController.findOrderById);
 
 
-module.exports=router;
+module.exports=router; 
