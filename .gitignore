@@ -1,0 +1,5 @@
+# Dependency directories
+node_modules/
+.yarn/
+node_modules/cache/
+node_modules/.cache/
