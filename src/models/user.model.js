@@ -26,12 +26,6 @@ const userSchema = new mongoose.Schema({
   mobile: {
     type: String,
   },
-  addresses: [
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "addresses",
-    },
-  ], 
   paymentInformation: [
     {
         type: mongoose.Schema.Types.ObjectId,

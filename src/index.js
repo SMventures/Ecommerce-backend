@@ -19,6 +19,8 @@ app.use("/auth",authRouters)
 const userRouters=require("./routes/user.routes.js");
 app.use("/api/users",userRouters)
 
+const productRoutes=require("./routes/adminProduct.routes.js");
+app.use("/product",productRoutes)
 
 
 

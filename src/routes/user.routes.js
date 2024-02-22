@@ -5,5 +5,7 @@ const userController=require("../controllers/user.controller.js")
 
 router.get("/",userController.getAllUsers)
 router.get("/profile",userController.getUserProfile)
+// router.post("/profile", userController.updateUserProfile);
+
 
 module.exports=router;

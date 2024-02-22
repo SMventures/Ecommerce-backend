@@ -9,5 +9,8 @@ router.get("/", authenticate, cartController.findUserCart);
 // PUT: /api/cart/add
 router.put("/add", authenticate, cartController.addItemToCart);
 
+// POST: /api/cart
+router.post("/", authenticate, cartController.createCart);
+
 
 module.exports=router;

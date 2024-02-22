@@ -68,7 +68,7 @@ const getUserProfileByToken=async(token)=>{
         console.log("userr id ",userId)
 
 
-        const user= (await findUserById(userId)).populate("addresses");
+        const user= (await findUserById(userId))
         user.password=null;
         
         if(!user){
