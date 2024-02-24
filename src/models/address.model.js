@@ -34,6 +34,6 @@ const addressSchema = new mongoose.Schema({
   },
 });
 
-const Address = mongoose.model('Address', addressSchema); // Corrected model name
+const Address = mongoose.model('addresses', addressSchema); // Corrected model name
 
 module.exports = Address;

@@ -1,48 +1,61 @@
 const Category = require("../models/category.model");
 const Product = require("../models/product.model");
 
-// Create a new product
 async function createProduct(reqData) {
-  let topLevel = await Category.findOne({ name: reqData.topLavelCategory });
+  // console.log("createProduct called with reqData:", reqData);
 
-  if (!topLevel) {
-    const topLavelCategory = new Category({
-      name: reqData.topLavelCategory,
-      level: 1,
-    });
-
-    topLevel = await topLavelCategory.save();
+  // Check if top-level category name is provided
+  if (!reqData.topLevelCategory) {
+    throw new Error("Top-level category name is required.");
   }
 
+  let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
+  // console.log("topLevel:", topLevel); // Log the topLevel variable
+
+  if (!topLevel) {
+    topLevel = new Category({ name: reqData.topLevelCategory, level: 1 });
+    topLevel = await topLevel.save();
+  }
+
+  // Rest of the createProduct function...
+  // console.log("the second level from product", topLevel);
+
+
+  // Check if second-level category name is provided
   let secondLevel = await Category.findOne({
     name: reqData.secondLavelCategory,
     parentCategory: topLevel._id,
   });
 
   if (!secondLevel) {
-    const secondLavelCategory = new Category({
-      name: reqData.secondLavelCategory,
+    const secondLevelCategory = new Category({
+      name: reqData.secondLevelCategory,
       parentCategory: topLevel._id,
       level: 2,
     });
 
-    secondLevel = await secondLavelCategory.save();
+    secondLevel = await secondLevelCategory.save();
   }
 
-  let thirdLevel = await Category.findOne({
-    name: reqData.thirdLavelCategory,
-    parentCategory: secondLevel._id,
-  });
+    // console.log("the second level from product", secondLevel);
 
-  if (!thirdLevel) {
-    const thirdLavelCategory = new Category({
-      name: reqData.thirdLavelCategory,
+    // Check if third-level category name is provided
+    let thirdLevel = await Category.findOne({
+      name: reqData.thirdLevelCategory,
       parentCategory: secondLevel._id,
-      level: 3,
     });
+  
+    if (!thirdLevel) {
+      const thirdLevelCategory = new Category({
+        name: reqData.thirdLevelCategory,
+        parentCategory: secondLevel._id,
+        level: 3,
+      });
+  
+      thirdLevel = await thirdLevelCategory.save();
+    }
+    // console.log("the third level from product", thirdLevel);
 
-    thirdLevel = await thirdLavelCategory.save();
-  }
 
   const product = new Product({
     title: reqData.title,
@@ -55,13 +68,14 @@ async function createProduct(reqData) {
     price: reqData.price,
     sizes: reqData.size,
     quantity: reqData.quantity,
-    category: thirdLevel._id,
+    category: thirdLevel ? thirdLevel._id : (secondLevel ? secondLevel._id : topLevel._id),
   });
 
   const savedProduct = await product.save();
 
   return savedProduct;
 }
+
 // Delete a product by ID
 async function deleteProduct(productId) {
   const product = await findProductById(productId);
@@ -166,6 +180,7 @@ async function getAllProducts(reqQuery) {
 }
 
 async function createMultipleProduct(products) {
+  // console.log("enternjbd craete muyltiple product ")
   for (let product of products) {
     await createProduct(product);
   }

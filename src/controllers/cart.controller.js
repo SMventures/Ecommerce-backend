@@ -1,26 +1,32 @@
-const cartService = require("../services/cart.service.js");
+const express=require("express");
+const router=express.Router();
+
+const cartService=require("../services/cart.service.js");
+
+
 
 const findUserCart = async (req, res) => {
-    const user = req.user;
     try {
-        const cart = await cartService.findUserCart(user.id);
-        return res.status(200).json(cart);
+      const user = req.user;
+      const cart = await cartService.findUserCart(user.id);
+      res.status(200).json(cart);
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+      // Handle error here and send appropriate response
+      res.status(500).json({ message: "Failed to get user cart.", error: error.message });
     }
-};
+}
+  
 
-const addItemToCart = async (req, res) => {
-    const user = req.user;
+  const addItemToCart = async (req, res) => {
     try {
-        const cartItem = await cartService.addCartItem(user.id, req.body);
-        return res.status(200).json(cartItem); // Return cartItem instead of cart
+      const user = req.user;
+      await cartService.addCartItem(user._id.toString(), req.body);
+     
+      res.status(202).json({message:"Item Added To Cart Successfully", status:true});
     } catch (error) {
-        return res.status(500).json({ error: error.message });
+      // Handle error here and send appropriate response
+      res.status(500).json({ message: "Failed to add item to cart.", error: error.message });
     }
-};
+  }
 
-module.exports = {
-    findUserCart,
-    addItemToCart
-};
+  module.exports={findUserCart,addItemToCart};

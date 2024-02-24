@@ -48,6 +48,8 @@ async function findUserCart(userId) {
 }
 async function addCartItem(userId,req){
   try{
+    console.log("reached here");
+
     const cart = await Cart.findOne({ user: userId });
     const product = await Product.findById(req.productId);
 
@@ -70,6 +72,7 @@ async function addCartItem(userId,req){
   }
 }
   catch (error) {
+    consol.log("eroor thrown from service")
     
     throw new Error(error.message);
 

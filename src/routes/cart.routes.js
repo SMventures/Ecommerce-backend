@@ -10,7 +10,7 @@ router.get("/", authenticate, cartController.findUserCart);
 router.put("/add", authenticate, cartController.addItemToCart);
 
 // POST: /api/cart
-router.post("/", authenticate, cartController.createCart);
+// router.post("/", authenticate, cartController.createCart);
 
 
 module.exports=router;
